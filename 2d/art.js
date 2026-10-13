@@ -41,7 +41,7 @@ rect(357,159,25,23,'#c9d4d0');rect(360,163,19,16,'#4e6870');rect(363,165,6,5,'#d
 // Service counter reads as a thick object with cladding and a foot rail.
 rect(260,214,330,16,'#b9b294');rect(260,214,330,2,'#e7e4cf');rect(260,230,330,9,'#776d54');for(let x=272;x<590;x+=20)rect(x,232,1,6,'#564f3d');rect(270,240,310,2,'#849596');
 
-for(const x of [290,345,400,455,510])stool(x,270);stool(248,176);stool(612,176);stool(229,270);rect(239,243,22,4,'#b5b19a');rect(249,247,3,15,'#536267');text('BEHIND BARS / TAYĒR',341,226,7,'#34494f');text('← ELEMENTARY',18,294,6,'#d5d5be');
+for(const x of [277,319,361,400,445,487,529,571])stool(x,270);text('BEHIND BARS / TAYĒR',341,226,7,'#34494f');text('← ELEMENTARY',18,294,6,'#d5d5be');
 
 
 
@@ -66,7 +66,7 @@ for(let j=0;j<4;j++){rect(19+j*47,30,4,132,'#303e38');rect(22+j*47,85,42,3,'#344
 return c;};
 // Higher-detail sprites keep the existing 32 x 52 world footprint.
 window.makePersonArt=function(name){
-const staff={Alex:['#302f2b','cap','#e2c6ac','tattoo'],David:['#544534','receding','#cfaa83','beard'],Laura:['#332c25','curls','#d5af90','glasses'],Giovanni:['#272a25','swept','#c99b78','beard'],Monica:['#39322b','bun','#dbb894'],Cheng:['#202a24','swept','#d2ac80'],Frances:['#d6b86f','braids','#debb98','glasses'],Steven:['#3b3029','beanie','#be8f6b','beard'],Wang:['#3a3b32','bald','#c5a17e']};
+const staff={Alex:['#302f2b','cap','#e2c6ac','tattoo'],David:['#544534','receding','#cfaa83','beard'],Laura:['#332c25','curlybun','#d5af90','glasses'],Giovanni:['#272a25','swept','#c99b78','beard'],Monica:['#39322b','ponytail','#dbb894'],Cheng:['#202a24','swept','#d2ac80'],Frances:['#d6b86f','braids','#debb98','glasses'],Steven:['#3b3029','beanie','#be8f6b','beard'],Wang:['#3a3b32','bald','#c5a17e']};
 const looks=[
 ['#252126','bob','#79513c','leather','#22282c','#759ab0'],
 ['#ae8551','swept','#e1bd97','shirt','#e1d7bc','#51575b'],
@@ -85,15 +85,15 @@ if(guest&&i>=12){v[0]=looks[(i+3)%12][0];v[1]=looks[(i+5)%12][1];v[2]=looks[(i+7
 const c=document.createElement('canvas');c.width=64;c.height=104;const g=c.getContext('2d');g.imageSmoothingEnabled=false;
 const r=(x,y,w,h,color)=>{g.fillStyle=color;g.fillRect(x*2,y*2,w*2,h*2)};
 r(9,2,14,12,hair);r(10,7,12,12,skin);r(8,18,16,18,shirt);r(5,19,4,14,skin);r(23,19,4,14,skin);r(10,36,5,12,pants);r(17,36,5,12,pants);r(8,47,7,3,'#171e22');r(17,47,7,3,'#171e22');r(12,12,2,2,'#29262a');r(19,12,2,2,'#29262a');r(15,17,4,1,'#94694e');
-if(style==='bob'||style==='long'||style==='braids'){r(7,4,4,style==='bob'?19:29,hair);r(21,4,4,style==='bob'?19:29,hair);r(9,3,13,4,hair);if(style==='braids')for(let k=8;k<32;k+=4){r(7,k,1,2,'#9b7951');r(24,k,1,2,'#9b7951');}}
-if(style==='bun'){r(7,4,5,6,hair);r(20,1,7,8,hair);r(21,6,4,12,hair);r(10,3,12,5,hair);}
+if(style==='bob'||style==='long'||style==='braids'){r(7,4,4,style==='bob'?19:style==='braids'?20:29,hair);r(21,4,4,style==='bob'?19:style==='braids'?20:29,hair);r(9,3,13,4,hair);if(style==='braids')for(let k=8;k<23;k+=4){r(7,k,1,2,'#9b7951');r(24,k,1,2,'#9b7951');}}
+if(style==='ponytail'){r(9,3,14,5,hair);r(21,4,4,9,hair);r(24,9,4,12,hair);r(24,10,4,2,'#778794');}if(style==='curlybun'){r(7,3,19,8,hair);for(const [x,y] of [[20,1],[24,4],[20,6],[17,2]]){r(x,y,5,5,hair);r(x+1,y,2,1,'#56505a');}r(7,9,3,9,hair);r(23,9,3,8,hair);}if(style==='bun'){r(7,4,5,6,hair);r(20,1,7,8,hair);r(21,6,4,12,hair);r(10,3,12,5,hair);}
 if(style==='curls'){for(let k=0;k<8;k++)r(7+k*2,2+k%3,4,5,hair);if(!guest){for(let k=0;k<5;k++){r(6,7+k*3,5,4,hair);r(22,7+k*3,5,4,hair);}}}
 if(style==='receding'){r(11,2,10,8,skin);r(10,4,2,5,hair);r(21,4,2,5,hair);}
 if(style==='bald'){r(9,2,14,12,skin);r(10,2,12,2,'#d8b997');r(7,19,18,18,shirt);r(4,20,4,13,skin);r(24,20,4,13,skin);}if(style==='swept'){r(10,0,12,6,hair);r(13,0,9,2,'#82715b');}
 if(style==='cap'){r(9,1,15,8,'#475b4c');r(18,7,10,3,'#798672');r(14,3,4,3,'#bdb294');}
 if(style==='beanie'){r(8,1,16,8,'#a09a85');r(8,8,16,3,'#77735e');}
 if(name==='Alex'){for(let k=15;k<24;k+=2){r(7,k,1,1,'#d6b679');r(24,k,1,1,'#d6b679');}r(8,24,3,1,'#d6b679');r(21,24,3,1,'#d6b679');}if(v[3]==='beard'){r(10,15,12,5,hair);r(12,15,8,2,skin);r(14,17,4,1,'#d5ac85');}
-if(name==='Alex'||v[3]==='glasses'||guest&&i%4===0){r(10,11,6,1,'#bea579');r(17,11,6,1,'#bea579');r(10,12,1,3,'#393d35');r(15,12,1,3,'#393d35');r(17,12,1,3,'#393d35');r(22,12,1,3,'#393d35');r(15,12,3,1,'#393d35');}
+if(name==='Alex'||v[3]==='glasses'||guest&&i%4===0){r(10,11,6,1,name==='Frances'?'#886545':'#bea579');r(17,11,6,1,name==='Frances'?'#886545':'#bea579');r(10,12,1,3,'#393d35');r(15,12,1,3,'#393d35');r(17,12,1,3,'#393d35');r(22,12,1,3,'#393d35');r(15,12,3,1,'#393d35');}
 if(guest){
 const month=Number(new Intl.DateTimeFormat('en-GB',{timeZone:'Europe/London',month:'numeric'}).format(new Date()));const cold=month>=9||month<=2;if(cold){r(5,19,4,13,shirt);r(23,19,4,13,shirt);r(9,19,14,3,'#c4b091');r(18,20,3,10,'#c4b091');}
 if(outfit==='dress'){r(8,32,16,11,shirt);r(6,39,20,4,shirt);r(14,21,3,1,'#deb97f');}
@@ -127,17 +127,17 @@ window.makeMonicaSideArt=function(){const c=document.createElement('canvas');c.w
 // Hand-drawn portrait studies using the user's confirmed identifying features.
 // Stylised interpretations; not a claim of a verified photographic likeness.
 window.makeStaffPortrait=function(name){
-const looks={Alex:['#ddbaa3','#302e30','cap'],David:['#dab599','#514d49','receding'],Laura:['#d5b096','#373138','curls'],Giovanni:['#cda489','#292b31','swept'],Frances:['#e2bfa7','#cfb879','braids'],Monica:['#ddba9f','#36313a','bun'],Cheng:['#d5ae94','#252c34','swept']};
+const looks={Alex:['#ddbaa3','#302e30','cap'],David:['#dab599','#514d49','receding'],Laura:['#d5b096','#373138','curlybun'],Giovanni:['#cda489','#292b31','swept'],Frances:['#e2bfa7','#cfb879','braids'],Monica:['#ddba9f','#36313a','ponytail'],Cheng:['#d5ae94','#252c34','swept']};
 const [skin,hair,style]=looks[name],c=document.createElement('canvas');c.width=96;c.height=112;const g=c.getContext('2d');g.imageSmoothingEnabled=false;
 const r=(x,y,w,h,col)=>{g.fillStyle=col;g.fillRect(x,y,w,h)};
 r(0,0,96,112,'#192930');for(let y=8;y<112;y+=12)r(3,y,90,1,'#253a42');r(7,7,82,98,'#293f47');r(10,10,76,70,'#354c54');r(19,85,59,27,'#131e27');r(13,94,70,18,'#19242c');r(38,62,20,24,skin);r(27,20,42,50,skin);r(24,35,5,21,skin);r(68,35,5,21,skin);r(29,62,8,7,'#c39983');r(59,62,7,7,'#c39983');r(33,40,10,3,hair);r(54,40,9,3,hair);r(36,46,4,4,'#25343d');r(56,46,4,4,'#25343d');r(47,46,4,12,'#bf947e');r(41,63,15,2,name==='Monica'?'#936d68':'#a9766b');r(32,27,3,9,'#ebcdb7');
 if(style==='cap'){r(23,15,49,15,'#18252f');r(22,26,57,6,'#101c26');r(57,23,14,2,'#4c6068');r(36,66,24,4,'#a28b80');}
 if(style==='receding'){r(25,21,7,16,hair);r(66,22,5,16,hair);r(38,17,24,3,'#bd9e8c');r(33,67,31,5,'#77706a');}
 if(style==='swept'){r(24,15,47,14,hair);r(23,25,9,14,hair);r(62,26,8,10,hair);r(33,17,23,3,'#424753');if(name==='Giovanni')r(34,65,27,7,'#68564f');}
-if(style==='bun'){r(24,16,47,15,hair);r(22,26,8,26,hair);r(65,25,7,27,hair);r(61,8,16,16,hair);r(27,20,6,7,'#54515c');}
-if(style==='braids'){r(24,15,47,14,hair);r(22,26,7,49,hair);r(66,26,7,49,hair);for(let y=30;y<76;y+=7){r(21,y,9,3,'#a89365');r(66,y,8,3,'#a89365');}r(21,74,9,3,'#1b2e38');r(66,74,9,3,'#1b2e38');}
+if(style==='ponytail'){r(24,16,47,14,hair);r(66,25,6,23,hair);r(70,33,10,26,hair);r(70,32,9,3,'#6a8290');}if(style==='curlybun'){r(24,16,47,14,hair);r(23,28,7,19,hair);r(65,27,7,19,hair);for(const [x,y] of [[58,8],[67,10],[73,16],[62,18]]){r(x,y,11,11,hair);r(x+2,y,4,2,'#56505a');}}if(style==='bun'){r(24,16,47,15,hair);r(22,26,8,26,hair);r(65,25,7,27,hair);r(61,8,16,16,hair);r(27,20,6,7,'#54515c');}
+if(style==='braids'){r(24,15,47,14,hair);r(22,26,7,31,hair);r(66,26,7,31,hair);for(let y=30;y<58;y+=7){r(21,y,9,3,'#a89365');r(66,y,8,3,'#a89365');}r(21,58,9,3,'#1b2e38');r(66,58,9,3,'#1b2e38');}
 if(style==='curls'){for(let y=17;y<74;y+=9)for(const x of [19,24,67,72]){r(x,y,8,8,hair);r(x+2,y,3,2,'#57505a');}r(27,14,41,12,hair);}
-if(['Alex','Laura','Frances'].includes(name)){for(const x of [31,52]){r(x,43,15,2,'#acbbc3');r(x,43,2,13,'#acbbc3');r(x+13,43,2,13,'#acbbc3');r(x,54,15,2,'#acbbc3');}r(46,46,6,2,'#acbbc3');if(name==='Alex'){r(24,49,2,24,'#a5a995');r(72,48,2,25,'#a5a995');}}
+if(name==='Giovanni'){r(29,62,5,7,'#c39983');r(62,62,4,7,'#c39983');r(34,68,26,3,'#ab8778');}if(['Alex','Laura','Frances'].includes(name)){const frame=name==='Frances'?'#8e694b':'#acbbc3';for(const x of [31,52]){r(x,43,15,2,frame);r(x,43,2,13,frame);r(x+13,43,2,13,frame);r(x,54,15,2,frame);if(name==='Frances')r(x+3,43,3,2,'#c79c65');}r(46,46,6,2,frame);if(name==='Alex'){r(24,49,2,24,'#a5a995');r(72,48,2,25,'#a5a995');}}
 if(name==='Alex'){r(14,94,9,18,skin);r(75,94,9,18,skin);for(let y=96;y<110;y+=4){r(15,y,6,2,'#53565b');r(77,y,6,2,'#53565b');}}
 // Flame tee is warm contrast against the cool room.
 for(let x=31;x<66;x+=5)r(x,88-(x%7),3,12,'#e46c43');r(30,94,37,12,'#ecaf62');g.fillStyle='#263440';g.font='bold 9px monospace';g.fillText('TAYER',34,103);r(7,106,82,1,'#6b8790');return c;
