@@ -1,5 +1,5 @@
 import * as T from './three.module.js';
-import {box,cylinder,bottle,label,material} from './models.js?v=20261013-18';
+import {box,cylinder,bottle,label,material} from './models.js?v=20261013-19';
 
 // The retained 2D art supplies the palette and fittings, not a flat backdrop.
 // Dressings stay on walls and worktops; existing walkable floor is unchanged.
@@ -25,6 +25,10 @@ export function dressRooms(front,back){
       box(root,x,2.48,-4.65,.2,.15,.08,'#c3dce7');
       const light=new T.PointLight('#c3e2f0',3.5,5,2);light.position.set(x,2.35,-4.05);root.add(light);
     }
+  }
+  // Discreet MUYU display on the rear shelf, with recognisable dark bottles.
+  for(const [i,accent]of ['#668477','#b98655','#969d99'].entries()){
+    const x=-3.6+i*.43;box(front,x,1.7,-4.35,.23,.52,.18,'#302b25',.2);box(front,x,2.01,-4.35,.11,.15,.12,'#202724');box(front,x,1.7,-4.245,.19,.28,.015,'#ded8c7');label(front,'MUYU',x,1.72,-4.23,.21,.08,'#263b33');box(front,x,1.58,-4.23,.17,.03,.012,accent);
   }
   // Familiar slush machine: two illuminated bowls behind Laura's station.
   box(front,2.65,1.39,-3.8,.67,.5,.47,'#b6c2b5',.3);
