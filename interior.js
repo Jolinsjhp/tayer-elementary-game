@@ -1,5 +1,5 @@
 import * as T from './three.module.js';
-import {box,cylinder,bottle,label,material} from './models.js?v=20261013-17';
+import {box,cylinder,bottle,label,material} from './models.js?v=20261013-18';
 
 // The retained 2D art supplies the palette and fittings, not a flat backdrop.
 // Dressings stay on walls and worktops; existing walkable floor is unchanged.
@@ -25,12 +25,6 @@ export function dressRooms(front,back){
       box(root,x,2.48,-4.65,.2,.15,.08,'#c3dce7');
       const light=new T.PointLight('#c3e2f0',3.5,5,2);light.position.set(x,2.35,-4.05);root.add(light);
     }
-  }
-  // Elementary street-facing glass and oak sill, preserved from the 2D design.
-  for(let i=0;i<3;i++){
-    box(front,-5.86,1.85,.4+i*1.1,.035,1.8,.98,'#536e68',.15);
-    box(front,-5.82,1.75,.4+i*1.1,.035,.045,.98,'#293e34');
-    box(front,-5.79,.93,.4+i*1.1,.16,.09,1.04,'#ad916b');
   }
   // Familiar slush machine: two illuminated bowls behind Laura's station.
   box(front,2.65,1.39,-3.8,.67,.5,.47,'#b6c2b5',.3);
