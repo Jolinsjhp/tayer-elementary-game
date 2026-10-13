@@ -123,3 +123,22 @@ r(458,18,3,252,'#384745');r(454,175,11,22,'#d2b64c');r(456,178,7,8,'#f0e6b9');g.
 window.makeSeatedPersonArt=function(name){const source=makePersonArt(name),c=document.createElement('canvas');c.width=64;c.height=104;const g=c.getContext('2d');g.imageSmoothingEnabled=false;g.drawImage(source,0,0,64,72,0,10,64,72);g.fillStyle='#42494b';g.fillRect(19,81,13,7);g.fillRect(34,81,13,7);g.fillRect(26,86,6,9);g.fillRect(41,86,6,9);g.fillStyle='#171e22';g.fillRect(26,94,12,5);g.fillRect(41,94,12,5);return c;};
 
 window.makeMonicaSideArt=function(){const c=document.createElement('canvas');c.width=64;c.height=104;const g=c.getContext('2d');const r=(x,y,w,h,k)=>{g.fillStyle=k;g.fillRect(x,y,w,h)};r(11,75,24,5,'#8a8c76');r(13,80,4,19,'#343d37');r(29,80,4,19,'#343d37');r(17,8,19,25,'#dbb894');r(12,8,10,17,'#39322b');r(11,2,19,10,'#39322b');r(8,3,9,9,'#39322b');r(31,17,8,5,'#dbb894');r(31,15,3,2,'#29352e');r(31,26,4,1,'#a87f69');r(15,34,21,31,'#242b27');r(17,63,18,16,'#30382f');r(29,70,14,8,'#30382f');r(38,76,5,16,'#30382f');r(37,91,13,4,'#252e28');r(24,43,13,9,'#242b27');r(34,46,19,5,'#dbb894');r(33,56,20,5,'#dbb894');r(18,37,12,4,'#edb451');r(19,42,9,9,'#ef9b43');return c;};
+
+// Hand-drawn portrait studies using the user's confirmed identifying features.
+// Stylised interpretations; not a claim of a verified photographic likeness.
+window.makeStaffPortrait=function(name){
+const looks={Alex:['#ddbaa3','#302e30','cap'],David:['#dab599','#514d49','receding'],Laura:['#d5b096','#373138','curls'],Giovanni:['#cda489','#292b31','swept'],Frances:['#e2bfa7','#cfb879','braids'],Monica:['#ddba9f','#36313a','bun'],Cheng:['#d5ae94','#252c34','swept']};
+const [skin,hair,style]=looks[name],c=document.createElement('canvas');c.width=96;c.height=112;const g=c.getContext('2d');g.imageSmoothingEnabled=false;
+const r=(x,y,w,h,col)=>{g.fillStyle=col;g.fillRect(x,y,w,h)};
+r(0,0,96,112,'#192930');for(let y=8;y<112;y+=12)r(3,y,90,1,'#253a42');r(7,7,82,98,'#293f47');r(10,10,76,70,'#354c54');r(19,85,59,27,'#131e27');r(13,94,70,18,'#19242c');r(38,62,20,24,skin);r(27,20,42,50,skin);r(24,35,5,21,skin);r(68,35,5,21,skin);r(29,62,8,7,'#c39983');r(59,62,7,7,'#c39983');r(33,40,10,3,hair);r(54,40,9,3,hair);r(36,46,4,4,'#25343d');r(56,46,4,4,'#25343d');r(47,46,4,12,'#bf947e');r(41,63,15,2,name==='Monica'?'#936d68':'#a9766b');r(32,27,3,9,'#ebcdb7');
+if(style==='cap'){r(23,15,49,15,'#18252f');r(22,26,57,6,'#101c26');r(57,23,14,2,'#4c6068');r(36,66,24,4,'#a28b80');}
+if(style==='receding'){r(25,21,7,16,hair);r(66,22,5,16,hair);r(38,17,24,3,'#bd9e8c');r(33,67,31,5,'#77706a');}
+if(style==='swept'){r(24,15,47,14,hair);r(23,25,9,14,hair);r(62,26,8,10,hair);r(33,17,23,3,'#424753');if(name==='Giovanni')r(34,65,27,7,'#68564f');}
+if(style==='bun'){r(24,16,47,15,hair);r(22,26,8,26,hair);r(65,25,7,27,hair);r(61,8,16,16,hair);r(27,20,6,7,'#54515c');}
+if(style==='braids'){r(24,15,47,14,hair);r(22,26,7,49,hair);r(66,26,7,49,hair);for(let y=30;y<76;y+=7){r(21,y,9,3,'#a89365');r(66,y,8,3,'#a89365');}r(21,74,9,3,'#1b2e38');r(66,74,9,3,'#1b2e38');}
+if(style==='curls'){for(let y=17;y<74;y+=9)for(const x of [19,24,67,72]){r(x,y,8,8,hair);r(x+2,y,3,2,'#57505a');}r(27,14,41,12,hair);}
+if(['Alex','Laura','Frances'].includes(name)){for(const x of [31,52]){r(x,43,15,2,'#acbbc3');r(x,43,2,13,'#acbbc3');r(x+13,43,2,13,'#acbbc3');r(x,54,15,2,'#acbbc3');}r(46,46,6,2,'#acbbc3');if(name==='Alex'){r(24,49,2,24,'#a5a995');r(72,48,2,25,'#a5a995');}}
+if(name==='Alex'){r(14,94,9,18,skin);r(75,94,9,18,skin);for(let y=96;y<110;y+=4){r(15,y,6,2,'#53565b');r(77,y,6,2,'#53565b');}}
+// Flame tee is warm contrast against the cool room.
+for(let x=31;x<66;x+=5)r(x,88-(x%7),3,12,'#e46c43');r(30,94,37,12,'#ecaf62');g.fillStyle='#263440';g.font='bold 9px monospace';g.fillText('TAYER',34,103);r(7,106,82,1,'#6b8790');return c;
+};

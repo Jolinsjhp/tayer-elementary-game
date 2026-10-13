@@ -49,3 +49,11 @@ main{max-width:1920px;padding:8px 12px 8px}header{height:44px}.stage{width:min(1
 
 /* Speech follows the speaking character through the camera, including on mobile. */
 #speech:after{display:block;top:auto;bottom:-7px;left:var(--tail-x,50%);width:12px;height:12px;background:#13251a;border:0;border-right:1px solid #d4d4ad;border-bottom:1px solid #d4d4ad;transform:translateX(-50%) rotate(45deg)}@media(max-width:650px){#speech{left:auto!important;top:auto!important;bottom:auto!important;width:auto!important;max-width:330px}#speech{left:var(--bubble-left)!important;top:var(--bubble-top)!important;width:var(--bubble-width)!important}}
+
+/* Story portraits, cool light and readable in-scene dialogue. */
+#game canvas{filter:saturate(.83) hue-rotate(7deg)}
+#speech{background:#182730fa;border-color:#92aab4;max-width:410px;padding-left:94px;min-height:112px}
+#staffPortrait{position:absolute;left:10px;top:12px;width:72px!important;height:84px!important;image-rendering:pixelated;border:1px solid #536d7a}
+#staffPortrait[hidden]{display:none!important}#speech:not(:has(#staffPortrait:not([hidden]))){padding-left:12px;min-height:0}
+#speech:after{background:#182730;border-color:#92aab4}.speaker{color:#e3c1a1}.speaker small{color:#b8ccd5;font-size:8px;letter-spacing:.6px}#line{color:#edf2f4;font-family:system-ui,sans-serif;font-size:14px}#choices button{color:#dce8ee;background:#263b46;border-color:#607e8b;font-size:11px}.hotspot{background:#22333ecc;border-color:#6b8994}
+@media(max-width:650px){#speech{padding-left:82px;max-width:350px}#staffPortrait{width:60px!important;height:70px!important}#line{font-size:13px}#choices button{font-size:11px}}
