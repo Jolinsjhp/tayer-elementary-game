@@ -1,0 +1,163 @@
+{
+  "type": "map",
+  "version": "1.10",
+  "tiledversion": "1.11.0",
+  "orientation": "orthogonal",
+  "renderorder": "right-down",
+  "infinite": false,
+  "width": 84,
+  "height": 42,
+  "tilewidth": 16,
+  "tileheight": 16,
+  "nextlayerid": 3,
+  "nextobjectid": 20,
+  "tilesets": [],
+  "layers": [
+    {
+      "id": 1,
+      "name": "rooms",
+      "type": "objectgroup",
+      "opacity": 1,
+      "visible": true,
+      "x": 0,
+      "y": 0,
+      "objects": [
+        {
+          "id": 1,
+          "name": "front",
+          "type": "Room",
+          "x": 0,
+          "y": 0,
+          "width": 640,
+          "height": 320,
+          "rotation": 0,
+          "visible": true,
+          "properties": [
+            {
+              "name": "artKey",
+              "type": "string",
+              "value": "front"
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "name": "back",
+          "type": "Room",
+          "x": 680,
+          "y": 0,
+          "width": 640,
+          "height": 320,
+          "rotation": 0,
+          "visible": true,
+          "properties": [
+            {
+              "name": "artKey",
+              "type": "string",
+              "value": "back"
+            }
+          ]
+        },
+        {
+          "id": 3,
+          "name": "kitchen",
+          "type": "Room",
+          "x": 680,
+          "y": 350,
+          "width": 640,
+          "height": 320,
+          "rotation": 0,
+          "visible": true,
+          "properties": [
+            {
+              "name": "artKey",
+              "type": "string",
+              "value": "kitchen"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "name": "workstation_modules",
+      "type": "objectgroup",
+      "opacity": 1,
+      "visible": true,
+      "x": 0,
+      "y": 0,
+      "objects": [
+        {
+          "id": 10,
+          "name": "ice_well",
+          "type": "WorkstationModule",
+          "x": 110,
+          "y": 170,
+          "point": true,
+          "rotation": 0,
+          "visible": true
+        },
+        {
+          "id": 11,
+          "name": "bottle_rail",
+          "type": "WorkstationModule",
+          "x": 410,
+          "y": 133,
+          "point": true,
+          "rotation": 0,
+          "visible": true
+        },
+        {
+          "id": 12,
+          "name": "tool_caddy",
+          "type": "WorkstationModule",
+          "x": 298,
+          "y": 185,
+          "point": true,
+          "rotation": 0,
+          "visible": true
+        },
+        {
+          "id": 13,
+          "name": "mixing",
+          "type": "WorkstationModule",
+          "x": 320,
+          "y": 180,
+          "point": true,
+          "rotation": 0,
+          "visible": true
+        },
+        {
+          "id": 14,
+          "name": "strainer",
+          "type": "WorkstationModule",
+          "x": 444,
+          "y": 210,
+          "point": true,
+          "rotation": 0,
+          "visible": true
+        },
+        {
+          "id": 15,
+          "name": "garnish",
+          "type": "WorkstationModule",
+          "x": 455,
+          "y": 238,
+          "point": true,
+          "rotation": 0,
+          "visible": true
+        },
+        {
+          "id": 16,
+          "name": "serve",
+          "type": "WorkstationModule",
+          "x": 460,
+          "y": 244,
+          "point": true,
+          "rotation": 0,
+          "visible": true
+        }
+      ]
+    }
+  ]
+}
