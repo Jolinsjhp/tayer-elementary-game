@@ -1,10 +1,10 @@
 import * as T from './three.module.js';
-import {createBackgroundMusic} from './audio.js?v=20261013-21';
+import {createBackgroundMusic} from './audio.js?v=20261013-22';
 const backgroundMusic=createBackgroundMusic();
-import {box,cylinder,label,bottle,glass,stool,person,pose,tool,dog,material,avatarPalettes} from './models.js?v=20261013-21';
-import {dressRooms} from './interior.js?v=20261013-21';
-import {createStreet} from './street.js?v=20261013-21';
-import {layouts,pathfind} from './navigation.js?v=20261013-21';
+import {box,cylinder,label,bottle,glass,stool,person,pose,tool,dog,material,avatarPalettes} from './models.js?v=20261013-22';
+import {dressRooms} from './interior.js?v=20261013-22';
+import {createStreet} from './street.js?v=20261013-22';
+import {layouts,pathfind} from './navigation.js?v=20261013-22';
 const $=id=>document.getElementById(id),stage=$('stage'),scene=new T.Scene();scene.background=new T.Color('#283b33');
 let renderer;try{renderer=new T.WebGLRenderer({canvas:$('world'),antialias:false,alpha:false});}catch{$('notice').textContent='This browser needs WebGL to run the 3D study.';$('notice').style.opacity=1;throw Error('WebGL unavailable');}
 renderer.setPixelRatio(1);renderer.shadowMap.enabled=true;renderer.shadowMap.type=T.PCFShadowMap;renderer.outputColorSpace=T.SRGBColorSpace;renderer.toneMapping=T.ACESFilmicToneMapping;renderer.toneMappingExposure=1.1;
@@ -211,9 +211,30 @@ if(S.order?.drink.method==='chilled'&&S.order.preparationReady&&!S.order.deliver
  if(phase===1){chilledBottle.updateWorldMatrix(true,false);pourStream(martiniStream,chilledBottle.localToWorld(new T.Vector3(.05,.3,0)),worldPos('back',2.2,1.42,1.68));fillLevel(martiniCup,t);}
 }
 const frontRecipe=S.order?.room==='front'&&!S.order.delivery?S.order.drink.actions[S.order.phase]:null;
-const lauraIdle=!S.order&&!people.Laura.job&&S.started;const lauraPouring=frontRecipe&&['bottle_rail','slush'].includes(frontRecipe.module)||lauraIdle; 
-lauraIdleCup.visible=lauraIdle;if(lauraIdle)fillLevel(lauraIdleCup,(S.time%4)/4);lauraBottle.visible=!!lauraPouring;lauraStream.visible=!!lauraPouring;
-if(lauraPouring&&!people.Laura.job){const idleWave=lauraIdle?Math.sin(S.time*1.6)*.08:0;pose(people.Laura,[worldPos('front',1.75,1.65+idleWave,-1.3)]);lauraBottle.rotation.z=.9;lauraBottle.updateWorldMatrix(true,false);pourStream(lauraStream,lauraBottle.localToWorld(new T.Vector3(-.04,.3,0)),worldPos('front',1.8,1.36,-1.3),front);if(lauraCup)fillLevel(lauraCup,S.order.phaseTime/frontRecipe.duration);}else if(lauraCup&&S.order?.room==='front'&&S.order.phase>1)fillLevel(lauraCup,1);
+const laura=people.Laura,lauraIdle=!S.order&&!laura.job&&S.started;
+const slush=lauraIdle?S.time%16>=8:frontRecipe?.module==='slush';
+const lauraWorking=(lauraIdle||frontRecipe&&['bottle_rail','slush'].includes(frontRecipe.module))&&!laura.job&&!laura.path.length;
+lauraIdleCup.visible=!!lauraWorking;lauraBottle.visible=!!lauraWorking&&!slush;lauraStream.visible=false;
+if(lauraWorking){
+ const destination=slush?new T.Vector3(2.48,0,-2.95):new T.Vector3(1.8,0,-2.15);
+ laura.group.position.lerp(destination,1-Math.exp(-dt*3));laura.group.rotation.y=slush?Math.PI:0;
+ const ready=laura.group.position.distanceTo(destination)<.09;
+ if(slush){
+  // The receiving glass is carried by the wrist, directly below the machine tap.
+  if(lauraIdleCup.parent!==laura.arms[0].hand){laura.arms[0].hand.attach(lauraIdleCup);lauraIdleCup.position.set(0,-.1,0);}
+  pose(laura,[worldPos('front',2.48,1.04,-3.47),worldPos('front',2.48,1.24,-3.5)]);
+  lauraIdleCup.updateWorldMatrix(true,false);
+  if(ready){lauraStream.visible=true;pourStream(lauraStream,worldPos('front',2.48,1.23,-3.5),lauraIdleCup.localToWorld(new T.Vector3(0,.2,0)),front);}
+ }else{
+  if(lauraIdleCup.parent!==front)front.attach(lauraIdleCup);
+  lauraIdleCup.position.set(1.8,1.15,-1.65);lauraIdleCup.rotation.set(0,0,0);
+  pose(laura,[worldPos('front',1.75,1.55+Math.sin(S.time*1.6)*.04,-1.65)]);
+  lauraBottle.rotation.z=.9;lauraBottle.updateWorldMatrix(true,false);
+  if(ready){lauraStream.visible=true;pourStream(lauraStream,lauraBottle.localToWorld(new T.Vector3(-.04,.3,0)),worldPos('front',1.8,1.36,-1.65),front);}
+ }
+ fillLevel(lauraIdleCup,ready?(lauraIdle?(S.time%8)/8:S.order.phaseTime/frontRecipe.duration):0);
+ if(lauraCup&&frontRecipe)fillLevel(lauraCup,S.order.phaseTime/frontRecipe.duration);
+}else if(lauraCup&&S.order?.room==='front'&&S.order.phase>1)fillLevel(lauraCup,1);
 const davidIdle=!people.David.job,activity=Math.floor(S.time/8)%3;idleMenus.visible=davidIdle&&activity===0;idleWater.visible=davidIdle&&activity===1;if(davidIdle&&activity===1){people.David.group.updateWorldMatrix(true,false);pose(people.David,[people.David.group.localToWorld(new T.Vector3(-.45,1.03,.08))]);}else if(davidIdle&&activity===2)people.David.group.rotation.y=Math.sin(S.time*.35)*.5;
 alexPabloMoment();updatePlayerHands();for(const p of [people.Steven,people.Wang]){const x=p.home[0],z=p.home[1];pose(p,[worldPos('back',x,1.35,z+.65),worldPos('back',x+.15,1.2,z+.55)]);}if(S.transitionRoom&&player){player.group.getWorldPosition(cameraTarget);cameraTarget.y=1.1;}camera.zoom=T.MathUtils.lerp(camera.zoom,zoomTarget*Math.min(1,stage.clientWidth/stage.clientHeight/1.35),.08);azimuth+=spin*dt;const center=cameraTarget.clone();camera.position.set(center.x+Math.sin(azimuth)*12,center.y+Math.tan(elevation)*12,center.z+Math.cos(azimuth)*12);camera.lookAt(center);camera.updateProjectionMatrix();renderer.render(scene,camera);for(const [name,chat]of Object.entries(staffComments)){const actor=people[name],period=name==='Alex'?47:61,on=S.started&&actor.room===S.room&&S.view==='room'&&$('bubble').hidden&&!S.order&&S.time>12&&S.time%period<5;chat.hidden=!on;if(on){const lines=name==='Alex'?['On fire tonight.','A little smoky.','Still serving. Still hot.','Two rooms. Two different rhythms.']:['Ingredients first. Always.','The shirts have enough flames.','We opened these doors in 2019.','The hex station was made with Behind Bars.'];chat.textContent=name.toUpperCase()+': '+lines[Math.floor(S.time/period)%lines.length];const v=actor.group.localToWorld(new T.Vector3(0,actor.headHeight+.1,0)).project(camera);chat.style.left=(v.x*.5+.5)*100+'%';chat.style.top=(-v.y*.5+.5)*100+'%';}}for(const p of guests){const beat=Math.floor(S.time/4),turn=(beat+Math.floor(p.seat/2))%16,on=S.started&&p.room===S.room&&S.view==='room'&&!p.path.length&&(p.seat%2?turn===1:turn===0);p.chat.hidden=!on;if(on){const words=p.seat%2?['Better now. Yours?','Absolutely.','Cheers!']:['How was your day?','Shall we stay for one more?','I missed evenings like this.'];p.chat.textContent=words[(Math.floor(beat/16)+p.seat)%3];const v=p.group.localToWorld(new T.Vector3(0,p.headHeight+.1,0)).project(camera);p.chat.style.left=(v.x*.5+.5)*100+'%';p.chat.style.top=(-v.y*.5+.5)*100+'%';}}placeTargets();positionSpeech();$('status').textContent=S.started?(S.view==='street'?'OLD STREET · '+street.state.label:S.room==='front'?'ELEMENTARY':'TAYĒR')+' · '+S.ordered+' ORDERS · 3D STUDY':'Come inside';}
 requestAnimationFrame(animate);
