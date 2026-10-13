@@ -3,7 +3,7 @@ import {createBackgroundMusic} from './audio.js?v=20261013-19';
 const backgroundMusic=createBackgroundMusic();
 import {box,cylinder,label,bottle,glass,stool,person,pose,tool,dog,material,avatarPalettes} from './models.js?v=20261013-19';
 import {dressRooms} from './interior.js?v=20261013-19';
-import {createStreet} from './street.js?v=20261013-19';
+import {createStreet} from './street.js?v=20261013-20';
 import {layouts,pathfind} from './navigation.js?v=20261013-19';
 const $=id=>document.getElementById(id),stage=$('stage'),scene=new T.Scene();scene.background=new T.Color('#283b33');
 let renderer;try{renderer=new T.WebGLRenderer({canvas:$('world'),antialias:false,alpha:false});}catch{$('notice').textContent='This browser needs WebGL to run the 3D study.';$('notice').style.opacity=1;throw Error('WebGL unavailable');}
