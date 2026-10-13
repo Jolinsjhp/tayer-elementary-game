@@ -91,7 +91,7 @@ function requestTayer(){
  S.invitationCheckAt=S.time+4;
 }
 function offerTayer(){
- if(S.room!=='front'||S.view!=='room'||S.toilet||S.transitionRoom||S.order||S.escortQueued||S.invitationOffered)return;
+ if(S.seatPending||S.room!=='front'||S.view!=='room'||S.toilet||S.transitionRoom||S.order||S.escortQueued||S.invitationOffered)return;
  const eligible=S.regular||S.cup?.room==='front'&&S.cup.remaining<.8||S.frontSipped;
  if(!eligible)return;
  if(guests.filter(p=>p.room==='back').length>=11){if(S.invitationRequested){say(people.David,'It’s full inside at the moment. Settle in here — I’ll come back when there’s room.');S.invitationCheckAt=S.time+12;}return;}
