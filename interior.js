@@ -1,5 +1,5 @@
 import * as T from './three.module.js';
-import {box,cylinder,bottle,label,material} from './models.js?v=20261013-22';
+import {box,cylinder,bottle,productBottle,label,material} from './models.js?v=20261013-25';
 
 // The retained 2D art supplies the palette and fittings, not a flat backdrop.
 // Dressings stay on walls and worktops; existing walkable floor is unchanged.
@@ -26,10 +26,9 @@ export function dressRooms(front,back){
       const light=new T.PointLight('#c3e2f0',3.5,5,2);light.position.set(x,2.35,-4.05);root.add(light);
     }
   }
-  // Discreet MUYU display on the rear shelf, with recognisable dark bottles.
-  for(const [i,accent]of ['#668477','#b98655','#969d99'].entries()){
-    const x=-3.6+i*.43;box(front,x,1.7,-4.35,.23,.52,.18,'#302b25',.2);box(front,x,2.01,-4.35,.11,.15,.12,'#202724');box(front,x,1.7,-4.245,.19,.28,.015,'#ded8c7');label(front,'MUYU',x,1.72,-4.23,.21,.08,'#263b33');box(front,x,1.58,-4.23,.17,.03,.012,accent);
-  }
+  // Official-style tall black MUYU bottles and compact amber Tayēr RTDs.
+  box(front,-2.3,1.31,-4.35,3.2,.05,.38,'#bfcac1',.5);
+  for(let i=0;i<3;i++){productBottle(front,-3.6+i*.43,1.34,-4.35,'muyu',i);productBottle(front,-2.05+i*.36,1.34,-4.35,'rtd',i);}
   // Familiar slush machine: two illuminated bowls behind Laura's station.
   box(front,2.65,1.39,-3.8,.67,.5,.47,'#b6c2b5',.3);
   for(const [dx,c] of [[-.17,'#d3c477'],[.17,'#b3c59a']]){
