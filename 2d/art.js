@@ -88,7 +88,7 @@ r(9,2,14,12,hair);r(10,7,12,12,skin);r(8,18,16,18,shirt);r(5,19,4,14,skin);r(23,
 if(style==='bob'||style==='long'||style==='braids'){r(7,4,4,style==='bob'?19:style==='braids'?20:29,hair);r(21,4,4,style==='bob'?19:style==='braids'?20:29,hair);r(9,3,13,4,hair);if(style==='braids')for(let k=8;k<23;k+=4){r(7,k,1,2,'#9b7951');r(24,k,1,2,'#9b7951');}}
 if(style==='ponytail'){r(9,3,14,5,hair);r(21,4,4,9,hair);r(24,9,4,12,hair);r(24,10,4,2,'#778794');}if(style==='curlybun'){r(7,3,19,8,hair);for(const [x,y] of [[20,1],[24,4],[20,6],[17,2]]){r(x,y,5,5,hair);r(x+1,y,2,1,'#56505a');}r(7,9,3,9,hair);r(23,9,3,8,hair);}if(style==='bun'){r(7,4,5,6,hair);r(20,1,7,8,hair);r(21,6,4,12,hair);r(10,3,12,5,hair);}
 if(style==='curls'){for(let k=0;k<8;k++)r(7+k*2,2+k%3,4,5,hair);if(!guest){for(let k=0;k<5;k++){r(6,7+k*3,5,4,hair);r(22,7+k*3,5,4,hair);}}}
-if(style==='receding'){r(11,2,10,8,skin);r(10,4,2,5,hair);r(21,4,2,5,hair);}
+if(style==='receding'){r(10,2,12,3,hair);r(12,5,8,2,skin);r(10,4,3,5,hair);r(20,4,3,5,hair);r(12,2,7,1,'#8e7b67');}
 if(style==='bald'){r(9,2,14,12,skin);r(10,2,12,2,'#d8b997');r(7,19,18,18,shirt);r(4,20,4,13,skin);r(24,20,4,13,skin);}if(style==='swept'){r(10,0,12,6,hair);r(13,0,9,2,'#82715b');}
 if(style==='cap'){r(9,1,15,8,'#475b4c');r(18,7,10,3,'#798672');r(14,3,4,3,'#bdb294');}
 if(style==='beanie'){r(8,1,16,8,'#a09a85');r(8,8,16,3,'#77735e');}
@@ -144,3 +144,34 @@ for(let x=31;x<66;x+=5)r(x,88-(x%7),3,12,'#e46c43');r(30,94,37,12,'#ecaf62');g.f
 };
 
 window.makeConversationArt=function(name,room){const c=document.createElement('canvas');c.width=320;c.height=200;const g=c.getContext('2d');g.imageSmoothingEnabled=false;g.fillStyle='#1d3039';g.fillRect(0,0,320,200);g.fillStyle='#40565c';g.fillRect(0,12,320,134);for(let x=0;x<320;x+=26){g.fillStyle='#344b50';g.fillRect(x,12,1,134);}for(const y of [34,76]){g.fillStyle='#afbec0';g.fillRect(12,y,296,3);for(let x=20;x<304;x+=23){g.fillStyle='#24383e';g.fillRect(x,y-17,9,17);g.fillRect(x+3,y-22,3,6);g.fillStyle='#c4c6ac';g.fillRect(x+2,y-11,5,5);}}const person=makeStaffPortrait(name),pg=person.getContext('2d'),pixels=pg.getImageData(0,0,96,112),backdrops=['192930','253a42','293f47','354c54','6b8790'];for(let i=0;i<pixels.data.length;i+=4){const hex=[pixels.data[i],pixels.data[i+1],pixels.data[i+2]].map(v=>v.toString(16).padStart(2,'0')).join('');if(backdrops.includes(hex))pixels.data[i+3]=0;}pg.putImageData(pixels,0,0);g.drawImage(person,102,18,116,136);g.fillStyle='#a0afb1';g.fillRect(0,146,320,5);g.fillStyle='#485f65';g.fillRect(0,151,320,49);g.fillStyle='#c2cfd0';g.fillRect(0,151,320,2);g.fillStyle='#b5d3d7';g.fillRect(67,148,10,16);g.fillStyle='#829fa4';g.fillRect(69,156,6,6);g.fillStyle='#e5e0ce';g.fillRect(203,161,67,25);g.fillStyle='#3c535c';g.font='7px sans-serif';g.fillText(room==='front'?'ELEMENTARY':'TAYĒR',214,173);return c;};
+
+// Detail portraits use their own 192 × 224 pixel grid, independent of world sprites.
+window.makeCuteStaffPortrait=function(name){
+const c=document.createElement('canvas');c.width=192;c.height=224;const g=c.getContext('2d');g.imageSmoothingEnabled=false;
+const r=(x,y,w,h,col)=>{g.fillStyle=col;g.fillRect(x,y,w,h)};
+const oval=(cx,cy,rx,ry,col)=>{for(let y=-ry;y<=ry;y++){const half=Math.floor(rx*Math.sqrt(1-y*y/(ry*ry)));r(cx-half,cy+y,half*2,1,col)}};
+r(0,0,192,224,'#203631');for(let y=0;y<224;y+=16)r(0,y,192,1,'#304943');for(let x=0;x<192;x+=32)r(x,0,1,224,'#304943');r(9,44,174,4,'#8aaba2');r(9,90,174,3,'#617e78');
+for(let x=15;x<185;x+=27){r(x,25,9,18,'#162925');r(x+3,19,3,7,'#19312a');r(x+1,33,7,6,'#b7bfa3')}
+const alex=name==='Alex',skin=alex?'#dbab88':'#e0bda1',shade=alex?'#ba8468':'#c39980',hair=alex?'#4a3933':'#5a4c42';
+oval(96,202,66,56,'#111f22');r(65,159,62,26,'#101c20');r(82,142,29,34,skin);r(82,146,29,10,shade);
+oval(96,104,42,53,shade);oval(94,99,39,51,skin);oval(54,107,8,13,shade);oval(54,105,6,10,skin);oval(135,107,7,13,skin);r(53,104,3,8,shade);
+// Contoured cheeks, brows and small highlights keep the portrait warm and readable.
+r(62,113,7,9,'#e4ad92');r(122,113,6,9,'#dca18a');r(67,84,20,3,hair);r(108,84,19,3,hair);
+for(const x of [73,113]){r(x-3,94,13,9,'#f2e4cf');r(x+1,95,6,8,alex?'#686e50':'#687e79');r(x+3,96,3,6,'#273937');r(x+2,95,2,2,'#fff0da');r(x-3,92,12,2,'#624c40');}
+r(95,96,3,17,'#d1a487');r(98,110,6,3,'#b98b70');r(91,115,11,2,'#edccb0');r(82,128,29,3,'#935e51');r(86,131,22,4,'#f0d9bf');r(90,136,13,2,'#bb8269');
+if(alex){
+ r(55,67,7,28,hair);r(127,66,6,25,hair);for(let y=130;y<147;y+=3)for(let x=71;x<123;x+=4)if((x+y)%3)r(x,y,2,1,'#98755e');
+ // Forward cap, slim gold frames, chains and tattoos are Alex's identifying cues.
+ oval(95,64,44,26,'#394e48');r(49,65,89,10,'#293c38');r(103,74,42,7,'#536a5e');r(74,46,30,2,'#63796b');r(87,54,14,8,'#bec7a5');
+ for(const x of [65,105]){r(x,91,30,2,'#c6a55e');r(x,91,2,20,'#c6a55e');r(x+28,91,2,20,'#c6a55e');r(x,110,30,2,'#c6a55e');}r(95,96,10,2,'#c6a55e');for(let y=108;y<154;y+=5){r(58,y,2,3,'#d1b46b');r(138,y,2,3,'#d1b46b');}
+ r(34,190,20,34,skin);r(139,190,20,34,skin);for(let y=194;y<220;y+=5){r(36,y,14,2,'#59625b');r(141,y+1,13,2,'#59625b');}
+}else{
+ // Short hair on top and at both temples: a high hairline, never a bald head.
+ oval(96,56,39,14,hair);r(60,54,13,29,hair);r(122,53,12,29,hair);r(71,62,12,9,skin);r(111,62,11,9,skin);r(82,65,30,6,skin);
+ for(let x=65;x<131;x+=5){r(x,49+(x%3),3,3,'#827063');r(x,54+(x%4),2,3,'#756155');}r(59,74,5,17,'#6c594c');r(128,74,5,17,'#6c594c');
+ for(let y=139;y<149;y+=3)for(let x=77;x<119;x+=5)r(x,y,2,1,'#9c8371');
+}
+// Small, deliberately pixel-drawn flames on the team's tee.
+for(let x=63;x<132;x+=9){r(x,183-(x%11),5,20,'#c45333');r(x+1,185-(x%7),3,17,'#f19c42')}r(62,193,71,16,'#edb767');g.fillStyle='#172a28';g.font='bold 12px monospace';g.fillText('TAYER',77,205);
+return c;
+};
