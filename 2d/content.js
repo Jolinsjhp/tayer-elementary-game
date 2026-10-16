@@ -13,3 +13,5 @@ BAR_CONTENT.back.reverse();BAR_CONTENT.back[0].note="FLORAL / CREAMY · LIGHT & 
 BAR_CONTENT.front[0].vessel="mini-martini";BAR_CONTENT.front[1].vessel="coupe";BAR_CONTENT.back[0].vessel="coupe";BAR_CONTENT.back[1].vessel="rocks";
 
 BAR_CONTENT.back[0].method="shake";BAR_CONTENT.back[0].actions=BAR_CONTENT.back[0].actions.map(a=>({...a,label:a.module==="mixing"?"Shake":a.label}));
+
+BAR_CONTENT.back.splice(1,0,{id:'martini',name:'MARTINI',price:'19',ingredients:'Freezer Martini',note:'COLD / CLEAN · SPIRIT-FORWARD',method:'chilled',vessel:'coupe',color:0xdce1bd,actions:steps(['Chilled bottle','freezer',1.8],['Glass','tool_caddy',.8],['Pour','strainer',2.2],['Serve','serve',1.4])});
