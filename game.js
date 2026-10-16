@@ -1,10 +1,10 @@
 import * as T from './three.module.js';
-import {createBackgroundMusic} from './audio.js?v=20261016-27';
+import {createBackgroundMusic} from './audio.js?v=20261016-28';
 const backgroundMusic=createBackgroundMusic();
-import {box,cylinder,label,bottle,productBottle,glass,stool,person,pose,tool,dog,material,avatarPalettes} from './models.js?v=20261016-27';
-import {dressRooms} from './interior.js?v=20261016-27';
-import {createStreet} from './street.js?v=20261016-27';
-import {layouts,pathfind} from './navigation.js?v=20261016-27';
+import {box,cylinder,label,bottle,productBottle,glass,stool,person,pose,tool,dog,material,avatarPalettes} from './models.js?v=20261016-28';
+import {dressRooms} from './interior.js?v=20261016-28';
+import {createStreet} from './street.js?v=20261016-28';
+import {layouts,pathfind} from './navigation.js?v=20261016-28';
 const $=id=>document.getElementById(id),stage=$('stage'),scene=new T.Scene();scene.background=new T.Color('#283b33');
 let renderer;try{renderer=new T.WebGLRenderer({canvas:$('world'),antialias:false,alpha:false});}catch{$('notice').textContent='This browser needs WebGL to run the 3D study.';$('notice').style.opacity=1;throw Error('WebGL unavailable');}
 renderer.setPixelRatio(1);renderer.shadowMap.enabled=true;renderer.shadowMap.type=T.PCFShadowMap;renderer.outputColorSpace=T.SRGBColorSpace;renderer.toneMapping=T.ACESFilmicToneMapping;renderer.toneMappingExposure=1.1;
@@ -81,15 +81,16 @@ for(const room of['front','back'])for(let i=0;i<10;i++){const [x,z]=seats[room][
 const hallway=new T.Group();scene.add(hallway);box(hallway,9,-.08,4.2,6,.16,1.4,'#6b7864');box(hallway,9,.045,4.8,6,.07,.05,'#bfa984');
 for(let i=0;i<3;i++){const anchor=new T.Group();front.add(anchor);anchor.position.set(-2.05+i*.36,1.56,-4.23);addTarget({group:anchor,room:'front',headHeight:0},'Tayēr RTD '+(i+1),()=>window.open('https://tayer-elementary.com/collections/rtd','_blank','noopener,noreferrer'));interactive.at(-1).button.setAttribute('aria-label','Open Tayēr RTD shop · bottle '+(i+1));}
 const pablo=dog(front,4.85,3.6);const dogActor={name:'Pablo',group:pablo,room:'front',headHeight:.65};addTarget(dogActor,'Pablo',visitPablo);
-function returnFromPablo(){player.group.position.y=0;pablo.position.y=0;S.pabloPlay=null;S.pabloVisit=false;S.walking=true;walk(player,layouts.front.seat,()=>{S.walking=false;setPlayerPose(true);});}
+function returnFromPablo(){hideDialogue();if(roomDialogues.get('front')?.actor===dogActor)roomDialogues.delete('front');player.group.position.y=0;pablo.position.y=0;S.pabloPlay=null;S.pabloReturning=true;S.walking=true;const seat=S.pabloReturnSeat||layouts.front.seat;
+ if(!walk(player,seat,()=>{S.walking=false;S.pabloVisit=false;S.pabloReturning=false;S.pabloReturnSeat=null;setPlayerPose(true);saveVisit();})){S.walking=false;S.pabloReturnRetry=S.time+1;}}
 function pabloChoices(){return [['Pet Pablo',()=>playPablo('pet')],['Play together',()=>playPablo('play')],['Back to my seat',returnFromPablo]];}
-function visitPablo(){if(!S.started||S.seatPending||S.transitionRoom||S.walking||player.room!=='front'){notice('Take your seat first.');return;}hideDialogue();S.pabloVisit=true;S.walking=true;S.pabloPlay=null;S.petUntil=S.time+30;
+function visitPablo(){if(!S.started||S.seatPending||S.transitionRoom||S.walking||player.room!=='front'){notice('Take your seat first.');return;}hideDialogue();S.pabloReturnSeat=layouts.front.seat.slice();S.pabloVisit=true;S.walking=true;S.pabloPlay=null;S.petUntil=S.time+30;
  if(!walk(player,[pablo.position.x-.65,Math.min(4.3,pablo.position.z+.35)],()=>{S.walking=false;say(dogActor,'Fancy saying hello?',pabloChoices());})) {S.walking=false;S.pabloVisit=false;}}
 function playPablo(kind){
  if(Math.random()<.25){S.pabloPlay={kind:'ignore',start:S.time};say(dogActor,['Pablo has other plans.','A quick look… then back to sniffing.','Apparently, not now.'][Math.floor(Math.random()*3)],pabloChoices());return;}
  S.pabloPlay={kind,start:S.time};S.petUntil=S.time+7;say(dogActor,kind==='pet'?'Pablo leans into your hand. ♥':'Pablo bounces over. Your turn!',pabloChoices());}
 function animatePabloPlay(){if(!S.pabloPlay||!S.pabloVisit||player.path.length)return;const age=S.time-S.pabloPlay.start;
- if(age>6){S.pabloPlay=null;player.group.position.y=0;pablo.position.y=0;return;}const kind=S.pabloPlay.kind;
+ if(age>6){returnFromPablo();return;}const kind=S.pabloPlay.kind;
  if(kind==='ignore'){pablo.rotation.y=-Math.PI/2;return;}
  player.group.rotation.y=Math.PI/2;player.group.position.y=kind==='pet'?-.16:0;
  pose(player,[worldPos('front',pablo.position.x-.1,.62+Math.sin(age*5)*.04,pablo.position.z+.1)]);pablo.rotation.y=Math.PI;
@@ -119,7 +120,7 @@ const idleMenus=new T.Group();people.David.arms[0].hand.add(idleMenus);box(idleM
 const staffComments={};for(const name of['Alex','Monica']){const chat=document.createElement('div');chat.className='guest-chat';chat.hidden=true;stage.append(chat);staffComments[name]=chat;}
 const trays={};for(const name of ['David','Giovanni','Frances','Laura']){const p=people[name],g=new T.Group();p.arms[0].hand.add(g);cylinder(g,0,0,0,.18,.025,'#9aaba4',10,.5);const cup=glass(g,0,.02,0,'rocks','#b7d0c5');g.visible=false;trays[name]={group:g,cup};}
 const cameraTarget=new T.Vector3(0,1.1,0);roots.back.visible=false;camera.zoom=1.65;let zoomTarget=1.65,azimuth=.16,elevation=Math.atan2(10,12);
-function focus(room,detail=false){if(S.left||S.transitionRoom)return;if(room==='back'&&S.room==='front'&&!S.toilet&&!S.escorted)return requestTayer();if(S.order&&S.order.room!==room&&!S.toilet)return notice('Your drink is being made. We will take you through when it is ready.');street.root.visible=false;scene.background.set(room==='back'?'#253b43':'#283b33');sun.color.set('#bfd9ee');ambient.color.set('#d1e5ee');ambient.groundColor.set(room==='back'?'#243d43':'#263b32');restoreCup();hideDialogue();S.room=room;S.sound=S.roomSound[room];music();S.view=detail?'station':'room';zoomTarget=detail?3.2:1.65;for(const [key,root]of Object.entries(roots))root.visible=key===room;cameraTarget.set(room==='back'?20:0,1.1,detail?-1:0);$('menu').hidden=true;$('bubble').hidden=true;notice(detail?'Turn view to see the real station depth.':room==='front'?'Elementary':'Tayēr');if(S.cup&&!S.toilet&&S.cup.room!==room){roots[room].attach(S.cup.mesh);S.cup.room=room;S.cup.home=playerGlass(room);S.cup.mesh.position.set(...S.cup.home);}if(S.started&&!detail){if(player.room===room&&!S.walking&&!S.toilet){restoreDialogue();}else moveRoom(room);}}
+function focus(room,detail=false){if(S.left||S.transitionRoom)return;if(room==='back'&&S.room==='front'&&!S.toilet&&!S.escorted)return requestTayer();if(S.order&&S.order.room!==room&&!S.toilet)return notice('Your drink is being made. We will take you through when it is ready.');if(room!==S.room&&S.pabloVisit){S.pabloPlay=null;S.pabloVisit=false;S.pabloReturning=false;}street.root.visible=false;scene.background.set(room==='back'?'#253b43':'#283b33');sun.color.set('#bfd9ee');ambient.color.set('#d1e5ee');ambient.groundColor.set(room==='back'?'#243d43':'#263b32');restoreCup();hideDialogue();S.room=room;S.sound=S.roomSound[room];music();S.view=detail?'station':'room';zoomTarget=detail?3.2:1.65;for(const [key,root]of Object.entries(roots))root.visible=key===room;cameraTarget.set(room==='back'?20:0,1.1,detail?-1:0);$('menu').hidden=true;$('bubble').hidden=true;notice(detail?'Turn view to see the real station depth.':room==='front'?'Elementary':'Tayēr');if(S.cup&&!S.toilet&&S.cup.room!==room){roots[room].attach(S.cup.mesh);S.cup.room=room;S.cup.home=playerGlass(room);S.cup.mesh.position.set(...S.cup.home);}if(S.started&&!detail){if(player.room===room&&!S.walking&&!S.toilet){restoreDialogue();}else moveRoom(room);}}
 function requestTayer(){
  if(S.seatPending)return askAlexSeat();
  if(!S.started||S.toilet||S.transitionRoom||S.escortQueued)return;
@@ -346,7 +347,7 @@ function updatePabloWalk(dt){if(S.pabloVisit||S.petUntil>S.time||S.toast||pabloV
  if(!pabloPath.length&&S.time>pabloNextWalk){const toAlex=pablo.position.x>0;pabloPath=pathfind('front',[pablo.position.x,pablo.position.z],toAlex?[-3.85,4.05]:[4.85,3.6],[],.22)||[];pabloNextWalk=S.time+28;}
  if(pabloPath.length){const [x,z]=pabloPath[0],dx=x-pablo.position.x,dz=z-pablo.position.z,d=Math.hypot(dx,dz);if(d<dt*.9)pabloPath.shift();else{pablo.position.x+=dx/d*dt*.9;pablo.position.z+=dz/d*dt*.9;pablo.rotation.y=Math.atan2(dx,dz)-Math.PI/2;}pablo.position.y=Math.abs(Math.sin(S.time*12))*.015;}}
 let lastVisitSave=0;
-function updateVisitScenes(dt){updateToast();updatePabloWalk(dt);if(S.serviceCloseup&&S.time-S.serviceCloseup.start>8)endServeCloseup();if(S.time-lastVisitSave>2){saveVisit();lastVisitSave=S.time;}}
+function updateVisitScenes(dt){if(S.pabloReturning&&!S.walking&&!player.path.length&&S.time>=S.pabloReturnRetry)returnFromPablo();updateToast();updatePabloWalk(dt);if(S.serviceCloseup&&S.time-S.serviceCloseup.start>8)endServeCloseup();if(S.time-lastVisitSave>2){saveVisit();lastVisitSave=S.time;}}
 function saveVisit(){if(!S.started||S.left||!player)return;try{const order=S.order?{room:S.order.room,index:BAR_CONTENT[S.order.room].indexOf(S.order.drink),phase:S.order.phase,phaseTime:S.order.phaseTime,comp:S.order.comp}:null;
  localStorage.setItem(VISIT_KEY,JSON.stringify({version:2,name:S.name,avatar:S.avatar,regular:S.regular,isJolin:S.isJolin,room:S.room,seatPending:S.seatPending,seatChoice:S.seatChoice,water:S.water,ordered:S.ordered,paid:S.paid,visitedTayer:S.visitedTayer,jolinStage:S.jolinStage,francesStage:S.francesStage,jolinDestination:S.jolinDestination,jolinShotDone:S.jolinShotDone,frontSipped:S.frontSipped,roomSound:S.roomSound,order,cup:S.cup?{room:S.cup.room,remaining:S.cup.remaining,type:S.cup.mesh.children.some(m=>m.geometry?.type==='LatheGeometry')?'spirits':'rocks'}:null,zoom:zoomTarget,azimuth,elevation}));}catch{}}
 function restoreVisit(){let v;try{v=JSON.parse(localStorage.getItem(VISIT_KEY));}catch{return;}if(!v||v.version!==2||!['front','back'].includes(v.room)||typeof v.name!=='string')return;
