@@ -1,5 +1,5 @@
 import * as T from './three.module.js';
-import {box,cylinder,bottle,productBottle,label,material} from './models.js?v=20261013-25';
+import {box,cylinder,bottle,productBottle,label,material} from './models.js?v=20261016-26';
 
 // The retained 2D art supplies the palette and fittings, not a flat backdrop.
 // Dressings stay on walls and worktops; existing walkable floor is unchanged.
