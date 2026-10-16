@@ -10,7 +10,7 @@ BAR_CONTENT.back.forEach(d=>d.actions=steps(['Bottle','bottle_rail',1.2],['Measu
 // Service intensity order is descriptive, not a measured ABV ranking.
 BAR_CONTENT.back.reverse();BAR_CONTENT.back[0].note="FLORAL / CREAMY · LIGHT & DELICATE";BAR_CONTENT.back[1].note="ORCHARD FRUIT / NUTTY · RICH & SPIRIT-FORWARD";
 
-BAR_CONTENT.front[0].vessel="mini-martini";BAR_CONTENT.front[1].vessel="coupe";BAR_CONTENT.back[0].vessel="coupe";BAR_CONTENT.back[1].vessel="rocks";
+BAR_CONTENT.front[0].vessel="osm-shot";BAR_CONTENT.front[1].vessel="coupe";BAR_CONTENT.back[0].vessel="coupe";BAR_CONTENT.back[1].vessel="rocks";
 
 BAR_CONTENT.back[0].method="shake";BAR_CONTENT.back[0].actions=BAR_CONTENT.back[0].actions.map(a=>({...a,label:a.module==="mixing"?"Shake":a.label}));
 

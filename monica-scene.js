@@ -1,6 +1,6 @@
 const $=id=>document.getElementById(id),canvas=$('portrait'),ctx=canvas.getContext('2d');
 ctx.imageSmoothingEnabled=false;
-const sheet=new Image();sheet.src='monica-frames-v6-cool-rest.png';
+const sheet=new Image();sheet.src='monica-frames-v8-tulip-clear.png';
 let ready=false,running=false,paused=false,elapsed=0,last=performance.now(),frame=3;
 const speech=text=>{$('speech').querySelector('p').textContent=text;};
 function draw(index){if(!ready)return;const w=sheet.naturalWidth/2,h=sheet.naturalHeight/2;ctx.clearRect(0,0,canvas.width,canvas.height);ctx.drawImage(sheet,(index%2)*w,Math.floor(index/2)*h,w,h,0,0,canvas.width,canvas.height);canvas.dataset.pose=['stir-out','stir-in','pour','rest'][index];}
