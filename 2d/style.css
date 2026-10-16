@@ -75,3 +75,5 @@ header button,.scenehead button,.hotspot{border-radius:4px;font-family:system-ui
 @media(orientation:landscape) and (max-height:500px){header{padding:4px 8px}.top button,.top a{font-size:10px;padding:5px}.stage{max-height:calc(100dvh - 60px)}footer{display:none}body:has(:fullscreen){padding:0}#speech.face-to-face{max-height:88%;min-height:115px}#speech.face-to-face #line{font-size:14px;margin:5px 0 8px}}
 
 #speech.face-to-face #staffPortrait{object-fit:contain;object-position:center;background:#263b36}
+
+#pourDemo{position:absolute;right:12px;top:45px;width:min(330px,48%);z-index:5;border:1px solid #80998c;border-radius:8px;background:#142820;box-shadow:0 8px 25px #0006;overflow:hidden}#pourDemo canvas{display:block;width:100%;image-rendering:pixelated}#pourDemo button{position:absolute;right:5px;top:4px;border:0;background:#142820cc;color:#eee;font-size:21px}#pourDemo p{margin:0;padding:8px 12px;font:13px/1.4 system-ui;color:#f0e9d8}#pourDemo b{color:#d7bb91;margin-right:6px}@media(max-width:650px){#pourDemo{width:48%;top:38px;right:6px}#pourDemo p{font-size:11px;padding:6px}}
